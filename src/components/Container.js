@@ -26,6 +26,8 @@ const Container = () => {
 
   const [amount, setAmount] = useState(0);
   const [custom, setCustom] = useState(0);
+  const [totaltips, setTotaltip] = useState(0);
+  const [totalAmountPerPerson, setTotalAmountPerPerson] = useState(0);
 
   const handleOnChnageValue = (value, type) => {
     // eslint-disable-next-line default-case
@@ -34,10 +36,14 @@ const Container = () => {
         setAmount(value);
         break;
       case "custom":
-        setCustom(value / 100);
+        const cus = value / 100;
+        setCustom(cus * amount);
         break;
       case "people":
-        console.log(value);
+        const totaltip = custom / value;
+        const totalAmountPerPerson = amount / value + totaltip;
+        setTotaltip(totaltip);
+        setTotalAmountPerPerson(totalAmountPerPerson);
         break;
     }
   };
@@ -55,11 +61,11 @@ const Container = () => {
               </label>
               <input
                 type="number"
-                placeholder="0"
+                placeholder="0.00"
                 className="icon"
                 step="0.01"
-                onChange={(event) =>
-                  handleOnChnageValue(event.target.value, "custom")
+                onChange={
+                  (event) => handleOnChnageValue(event.target.value, "amount") //amount
                 }
               />
             </div>
@@ -80,7 +86,7 @@ const Container = () => {
                     placeholder="Custom"
                     className="icons"
                     onChange={(event) =>
-                      handleOnChnageValue(event.target.value, "amount")
+                      handleOnChnageValue(event.target.value, "custom")
                     }
                   />
                 </div>
@@ -92,11 +98,12 @@ const Container = () => {
               </label>
               <input
                 type="number"
-                placeholder="0"
+                placeholder="0.00"
                 className="peopicon"
                 onChange={(event) =>
                   handleOnChnageValue(event.target.value, "people")
                 }
+                required
               />
             </div>
           </from>
@@ -110,7 +117,11 @@ const Container = () => {
                 <p>{"/person"}</p>
               </div>
               <div>
-                <h1>{"$0.00"}</h1>
+                <h1>
+                  {totaltips === 0
+                    ? "$0.00"
+                    : "$" + parseFloat(totaltips).toFixed(2)}
+                </h1>
               </div>
             </div>
             {/* 2nd */}
@@ -120,7 +131,11 @@ const Container = () => {
                 <p>{"/person"}</p>
               </div>
               <div>
-                <h1>{"$0.00"}</h1>
+                <h1>
+                  {totalAmountPerPerson === 0
+                    ? "$0.00"
+                    : "$" + parseFloat(totalAmountPerPerson).toFixed(2)}
+                </h1>
               </div>
             </div>
           </div>
