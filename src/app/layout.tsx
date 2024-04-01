@@ -10,6 +10,7 @@ const space_mono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"] });
 export const metadata: Metadata = {
   title : "Tip Calculator App",
   description: "Calculates tip for each person in a group.",
+  metadataBase: new URL("https://tip-calculator-dusky.vercel.app/"),
   robots: {
     index: false,
     follow: false,
