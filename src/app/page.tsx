@@ -16,9 +16,10 @@ export default function Home() {
   const [tipPercentage, setTipPercentage] = useState(0);
   const [numberOfPeople, setNumberOfPeople] = useState(0);
 
-  const tipAmountPerPerson =
-    (bill * (tipPercentage / 100)) / numberOfPeople || 0;
-  const totalPerPerson = bill / numberOfPeople + tipAmountPerPerson || 0;
+  const tipAmountPerPerson = numberOfPeople > 0 ?
+    (bill * ((tipPercentage||0) / 100)) / numberOfPeople : 0;
+  
+  const totalPerPerson = numberOfPeople > 0 ? bill / numberOfPeople + tipAmountPerPerson : 0;
 
   function handleReset() {
     setBill(0);
@@ -29,7 +30,7 @@ export default function Home() {
   console.log(tipAmountPerPerson , "i am here")
 
   return (
-    <div className=" min-h-screen w-full bg-[hsl(185,41%,84%)] flex justify-center items-center flex-col gap-10 p-2">
+    <div className=" min-h-screen w-full bg-[hsl(185,41%,84%)] flex justify-center items-center flex-col gap-10 p-5">
       <Image src={logo} alt="logo" />
       {/* main section */}
       <main className="bg-white  p-4 rounded-2xl flex flex-col md:flex-row gap-6 w-full max-w-[700px]">
@@ -45,7 +46,8 @@ export default function Home() {
                 className="text-right h-[32px] w-full bg-[hsl(189,41%,97%)] px-2 outline-strong-cyan rounded font-bold text-dark-cyan "
                 type="number"
                 value={bill}
-                placeholder="0"
+                placeholder="Enter total bill amount"
+                min="0"
               />
               <BiDollar className="absolute top-2.5 left-1.5 text-light-grayish-cyan text-xs" />
             </div>
@@ -66,6 +68,7 @@ export default function Home() {
               <input
                 value={tipPercentage}
                 onChange={(e) => setTipPercentage(e.target.valueAsNumber)}
+                min="0"
                 type="number"
                 placeholder="Custom"
                 className=" block    bg-[hsl(189,41%,97%)] px-2 h-[38px] outline-strong-cyan rounded font-bold text-dark-cyan"
@@ -82,7 +85,8 @@ export default function Home() {
                 onChange={(e) => setNumberOfPeople(e.target.valueAsNumber)}
                 className="text-right h-[32px] w-full bg-[hsl(189,41%,97%)] px-2 outline-strong-cyan rounded font-bold text-dark-cyan"
                 type="number"
-                placeholder="0"
+                placeholder="Enter number of people"
+                min={0}
               />
               <FaUser className="absolute top-2.5 left-1.5 text-light-grayish-cyan text-xs" />
             </div>
